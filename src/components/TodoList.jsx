@@ -1,6 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
+import { LanguageContext } from "../App";
 
-function TodoList({ todos }) {
+function TodoList({ todos, onDelete, onComplete }) {
+  const { language } = useContext(LanguageContext);
+  
   return (
     <ul className="list-group">
       {todos.map((todo) => (
@@ -18,11 +21,20 @@ function TodoList({ todos }) {
           >
             {todo.text}
           </span>
-          <button
-            className="btn btn-danger btn-sm"
-          >
-            Delete
-          </button>
+          <div className="btn-group">
+            <button
+              className="btn btn-danger btn-sm"
+              onClick={() => onDelete(todo.id)}
+            >
+              {language === "en" ? "Delete" : "Hapus"}
+            </button>
+            <button
+              className="btn btn-success btn-sm ms-1"
+              onClick={() => onComplete(todo.id)}
+            >
+              {todo.completed ? `${language === "en" ? "Not Yet" : "Belum"}` : `${language === "en" ? "Complete" : "Selesai"}`}
+            </button>
+          </div>
         </li>
       ))}
     </ul>
